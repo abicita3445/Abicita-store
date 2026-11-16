@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ABICITA STORE 💜</title>
+<style>
+body{margin:0;background:#f8f1ff;color:#291044;font-family:Arial}
+header{background:linear-gradient(135deg,#31065f,#8b35df);color:white;text-align:center;padding:30px 15px}
+header h1{font-size:32px}
+.diamante{font-size:55px;color:#67e8f9}
+main{padding:15px;max-width:850px;margin:auto}
+section{background:white;padding:18px;margin:15px 0;border-radius:18px;box-shadow:0 3px 12px #ddd}
+h2{color:#7825c9}
+.productos{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}
+.producto{background:#faf5ff;border:1px solid #e5d0ff;padding:13px;border-radius:13px}
+.producto h3{font-size:15px}
+.precio{font-size:19px;font-weight:bold;color:#6d28d9}
+button{background:#7226c9;color:white;border:0;border-radius:10px;padding:10px;cursor:pointer;font-weight:bold}
+.agregar{background:#dffaff;color:#087b91;margin-top:8px}
+#carrito{background:#32105f;color:white;position:sticky;bottom:0;padding:15px;text-align:center}
+#carrito button{background:#67e8f9;color:#241044}
+a{color:#7226c9}
+</style>
+</head>
+<body>
+<header>
+<div class="diamante">💎</div>
+<h1>ABICITA STORE</h1>
+<p>Gaming y productos digitales 💜</p>
+</header>
+<main>
+<section>
+<h2>¡Hola, soy ABICITA_STORE 💜</h2>
+<p>Somos una tienda de productos digitales y gaming de Argentina.</p>
+🎮 Diamantes Free Fire.<br>
+🏆 Pase Booyah.<br>
+🔥 Fragmentos.<br>
+🩷 Membresías.<br>
+📺 Entretenimiento digital.<br>
+💎 Productos y servicios digitales.
+<p>Atendemos consultas, informamos precios y ayudamos a los clientes a realizar sus pedidos.</p>
+<p>Nuestro trato es amable, respetuoso y personalizado.</p>
+Instagram: <a href="https://instagram.com/abicitaa_store">@abicitaa_store</a>
+</section>
+
+<div id="catalogo"></div>
+
+<section>
+<h2>💳 Datos para transferir</h2>
+<p><b>Alias:</b> Abi.lemon.pay</p>
+<p><b>A nombre de:</b> Abigail Lorena Milagros</p>
+<p>❗ Recordá dejar comprobante.</p>
+</section>
+</main>
+
+<div id="carrito">
+🛒 MI CARRITO
+<p id="total">0 productos - $0</p>
+<button onclick="enviar()">ENVIAR PEDIDO POR WHATSAPP</button>
+</div>
+
+<a href="https://wa.me/5493516434789" style="position:fixed;right:15px;bottom:100px;background:#20c768;color:white;padding:15px;border-radius:50%;text-decoration:none;font-size:25px">☎</a>
+
+<script>
+const grupos={
+"💎 DIAMANTES INFINITOS":[
+["110 💎",1700],["341 💎",5250],["572 💎",7320],
+["1166 💎",13200],["2398 💎",24300],["6160 💎",55000]],
+"🩷 MEMBRESÍAS":[
+["Tarjeta básica - 100 💎",1500],
+["Tarjeta semanal - 350 💎",3500],
+["Tarjeta mensual - 1800 💎",14000]],
+"🏆 PASE BOOYAH":[["Pase Booyah",2600]],
+"🔥 FRAGMENTOS PARA EVOS":[
+["Cada fragmento",65],["Cajita de fragmento",300]],
+"📺 PLATAFORMAS DIGITALES":[
+["Netflix",5500],["Prime Video",3000],
+["Disney Premium",4000],["HBO (1 dispositivo)",2500],
+["Flujo TV",4500],["CapCut Pro",4500],
+["Spotify",4500],["Flujo TV (3 dispositivos)",6500],
+["TV Digital",4000],["Netflix completo",21000],
+["ChatGPT",4500],["Spotify (3 meses)",10000],
+["Crunchyroll",3800],["Canva Pro",3500],
+["Paramount",3500],["ChatGPT Plus completo",27000],
+["Netflix extra",8000]],
+"❇️ PASE DE NIVEL":[
+["Nivel 6",900],["Nivel 10",950],["Nivel 15",950],
+["Nivel 20",950],["Nivel 25",950],["Nivel 30",1500]]
+};
+
+let carrito=[];
+const formato=n=>"$"+n.toLocaleString("es-AR");
+const catalogo=document.getElementById("catalogo");
+
+for(const [grupo,items] of Object.entries(grupos)){
+let seccion=document.createElement("section");
+seccion.innerHTML=`<h2>${grupo}</h2><div class="productos"></div>`;
+let lista=seccion.querySelector(".productos");
+items.forEach(([nombre,precio])=>{
+let card=document.createElement("div");
+card.className="producto";
+card.innerHTML=`<h3>${nombre}</h3><div class="precio">${formato(precio)}</div>`;
+let btn=document.createElement("button");
+btn.className="agregar";
+btn.textContent="＋ AGREGAR";
+btn.onclick=()=>{
+carrito.push({nombre,precio});
+actualizar();
+};
+card.appendChild(btn);
+lista.appendChild(card);
+});
+catalogo.appendChild(seccion);
+}
+
+function actualizar(){
+let cantidad=carrito.length;
+let total=carrito.reduce((s,p)=>s+p.precio,0);
+document.getElementById("total").textContent=
+cantidad+" productos - "+formato(total);
+}
+
+function enviar(){
+if(!carrito.length){
+alert("Tu carrito está vacío 💜");
+return;
+}
+let total=carrito.reduce((s,p)=>s+p.precio,0);
+let detalle=carrito.map(p=>"• "+p.nombre+" - "+formato(p.precio)).join("\n");
+let mensaje="Hola Abicita Store 💜 Quiero realizar este pedido:\n"+
+detalle+"\nTOTAL: "+formato(total)+
+"\n¿Me confirmás disponibilidad?";
+window.open("https://wa.me/5493516434789?text="+
+encodeURIComponent(mensaje),"_blank");
+}
+</script>
+</body>
+</html>
